@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DatabaseService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">dinosaur-park</a> &gt; <a href="index.source.html" class="el_package">com.axity.dinosaurpark.persistence</a> &gt; <span class="el_source">DatabaseService.java</span></div><h1>DatabaseService.java</h1><pre class="source lang-java linenums">package com.axity.dinosaurpark.persistence;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+
+import liquibase.Contexts;
+import liquibase.Liquibase;
+import liquibase.database.Database;
+import liquibase.database.DatabaseFactory;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.resource.ClassLoaderResourceAccessor;
+
+public class DatabaseService {
+    private final Connection connection;
+   
+
+<span class="fc" id="L20">    public DatabaseService(String dbPath) throws Exception{</span>
+<span class="fc" id="L21">        connection = DriverManager.getConnection(&quot;jdbc:h2:&quot; + dbPath, &quot;sa&quot;, &quot;&quot;);</span>
+<span class="fc" id="L22">        runLiquibase();</span>
+<span class="fc" id="L23">    }</span>
+
+    private void runLiquibase() throws Exception {
+<span class="fc" id="L26">        Database db = DatabaseFactory.getInstance()</span>
+<span class="fc" id="L27">            .findCorrectDatabaseImplementation(new JdbcConnection(connection));</span>
+
+<span class="fc" id="L29">        new Liquibase(&quot;db/changelog/db.changelog-master.xml&quot;, new ClassLoaderResourceAccessor(), db)</span>
+<span class="fc" id="L30">        .update(new Contexts());</span>
+<span class="fc" id="L31">    }</span>
+
+    // Mismos nombres que CsvWriter para no cambiar el código de las zonas
+    public void appendRevenue(RevenueRecord r) throws SQLException {
+<span class="fc" id="L35">        String sql = &quot;INSERT INTO revenues (type, amount, tourist_id, zone, timestamp) VALUES (?,?,?,?,?)&quot;;</span>
+<span class="fc" id="L36">        try(PreparedStatement ps = connection.prepareStatement(sql)){</span>
+<span class="fc" id="L37">            ps.setString(1, r.type());</span>
+<span class="fc" id="L38">            ps.setDouble(2, r.amount());</span>
+<span class="fc" id="L39">            ps.setLong(3, r.touristId());</span>
+<span class="fc" id="L40">            ps.setString(4, r.zone());</span>
+<span class="fc" id="L41">            ps.setTimestamp(5, Timestamp.valueOf(r.timestamp()));</span>
+<span class="fc" id="L42">            ps.executeUpdate();</span>
+        }
+        // INSERT INTO revenues (type, amount, tourist_id, zone, timestamp) VALUES (?,?,?,?,?)
+        // Usar PreparedStatement — NUNCA concatenar SQL con strings
+<span class="fc" id="L46">    }</span>
+    public void appendExpense(ExpenseRecord e) throws SQLException {
+<span class="fc" id="L48">        String sql = &quot;INSERT INTO expenses (type, amount, description, timestamp) VALUES (?,?,?,?)&quot;;</span>
+<span class="fc" id="L49">        try(PreparedStatement ps = connection.prepareStatement(sql)){</span>
+<span class="fc" id="L50">            ps.setString(1, e.type());</span>
+<span class="fc" id="L51">            ps.setDouble(2, e.amount());</span>
+<span class="fc" id="L52">            ps.setString(3, e.description());</span>
+<span class="fc" id="L53">            ps.setTimestamp(4, Timestamp.valueOf(e.timestamp()));</span>
+<span class="fc" id="L54">            ps.executeUpdate();</span>
+        }
+<span class="fc" id="L56">    }</span>
+    public void appendEvent(EventRecord ev) throws SQLException {
+<span class="fc" id="L58">        String sql = &quot;INSERT INTO events (step, event_name, description, affected_entities, timestamp) VALUES (?,?,?,?,?)&quot;;</span>
+<span class="fc" id="L59">        try(PreparedStatement ps = connection.prepareStatement(sql)){</span>
+<span class="fc" id="L60">            ps.setLong(1, ev.step());</span>
+<span class="fc" id="L61">            ps.setString(2, ev.eventName());</span>
+<span class="fc" id="L62">            ps.setString(3, ev.description());</span>
+<span class="fc" id="L63">            ps.setString(4, ev.affectedEntities());</span>
+<span class="fc" id="L64">            ps.setTimestamp(5, Timestamp.valueOf(ev.timestamp()));</span>
+<span class="fc" id="L65">            ps.executeUpdate();</span>
+        }
+<span class="fc" id="L67">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

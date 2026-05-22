@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ParkConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">dinosaur-park</a> &gt; <a href="index.source.html" class="el_package">com.axity.dinosaurpark.config</a> &gt; <span class="el_source">ParkConfig.java</span></div><h1>ParkConfig.java</h1><pre class="source lang-java linenums">package com.axity.dinosaurpark.config;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+public final class ParkConfig {
+
+    private static ParkConfig instance;
+    private final Properties props;
+
+<span class="fc" id="L12">    private ParkConfig() throws IOException {</span>
+<span class="fc" id="L13">        props = new Properties();</span>
+<span class="fc" id="L14">        try (InputStream is = getClass().getClassLoader()</span>
+<span class="fc" id="L15">                .getResourceAsStream(&quot;park.properties&quot;)) {</span>
+<span class="pc bpc" id="L16" title="1 of 2 branches missed.">            if (is == null)</span>
+<span class="nc" id="L17">                throw new RuntimeException(&quot;Archivo no encontrado&quot;);</span>
+<span class="fc" id="L18">            props.load(is);</span>
+        }
+<span class="fc" id="L20">    }</span>
+
+    public static ParkConfig getInstance() throws IOException {
+<span class="pc bpc" id="L23" title="1 of 2 branches missed.">        if (instance == null) {</span>
+<span class="fc" id="L24">            return new ParkConfig();</span>
+        }
+<span class="nc" id="L26">        return instance;</span>
+    }
+
+    public int getInt(String key, int defaultValue){ 
+<span class="fc" id="L30">        return Integer.parseInt(props.getProperty(key, String.valueOf(defaultValue)));</span>
+    }
+
+    public double getDouble(String key, double defaultValue){
+<span class="fc" id="L34">        return Double.parseDouble(props.getProperty(key, String.valueOf(defaultValue)));</span>
+    }
+
+    public String getString(String key, String defaultValue){
+<span class="fc" id="L38">        return props.getProperty(key, defaultValue);</span>
+    }
+
+    public long getSeed(){
+<span class="nc" id="L42">        return Long.parseLong(props.getProperty(&quot;simulation.seed&quot;));</span>
+    } // lee simulation.seed
+
+    public int getTotalSteps(){
+<span class="nc" id="L46">        return Integer.parseInt(props.getProperty(&quot;simulation.totalSteps&quot;));</span>
+    }
+
+
+    // Solo para tests — permite resetear la instancia entre tests
+    static void resetForTesting() {
+<span class="nc" id="L52">        instance = null;</span>
+<span class="nc" id="L53">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

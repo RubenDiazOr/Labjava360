@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CentralHub.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">dinosaur-park</a> &gt; <a href="index.source.html" class="el_package">com.axity.dinosaurpark.zone</a> &gt; <span class="el_source">CentralHub.java</span></div><h1>CentralHub.java</h1><pre class="source lang-java linenums">package com.axity.dinosaurpark.zone;
+
+import java.util.Random;
+
+import com.axity.dinosaurpark.model.Tourist;
+import com.axity.dinosaurpark.persistence.DatabaseService;
+import com.axity.dinosaurpark.simulation.ParkState;
+
+public class CentralHub implements ParkZone{
+
+    private final ParkState state;
+    private int currentOccupancy;
+
+    
+<span class="fc" id="L15">    public CentralHub(ParkState state) {</span>
+<span class="fc" id="L16">        this.state = state;</span>
+<span class="fc" id="L17">    }</span>
+
+    @Override
+    public String getName() {
+<span class="nc" id="L21">        return &quot;CENTRAL HUB&quot;;</span>
+    }
+
+    @Override
+    public boolean hasCapacity() {
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        return (getCurrentOccupancy() &lt; getMaxCapacity()) ? true : false;</span>
+    }
+
+    @Override
+    public int getCurrentOccupancy() {
+<span class="fc" id="L31">        return currentOccupancy;</span>
+    }
+
+    @Override
+    public int getMaxCapacity() {
+<span class="fc" id="L36">        return state.getConfig().getInt(&quot;central.maxCapacity&quot;, 30);</span>
+    }
+
+    @Override
+    public void enter(Tourist tourist) {
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (hasCapacity()) {</span>
+<span class="fc" id="L42">            currentOccupancy += 1;</span>
+        }
+<span class="fc" id="L44">    }</span>
+
+    @Override
+    public void exit(Tourist tourist) {
+<span class="nc" id="L48">        currentOccupancy -= 1;</span>
+<span class="nc" id="L49">    }</span>
+
+    public void visit(Tourist tourist, Random souvenirProbability, DatabaseService databaseService, double discount){
+<span class="fc" id="L52">        enter(tourist);</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if (souvenirProbability.nextDouble() &lt; state.getConfig().getDouble(&quot;hub.souvenirPurchaseProbability&quot;, 0.4)) {</span>
+<span class="fc" id="L54">            double price = state.getConfig().getDouble(&quot;hub.souvenirPrice&quot;, 15.0);</span>
+<span class="fc" id="L55">            double priceWithDiscount = price - (price * discount);</span>
+<span class="fc" id="L56">            state.getTourists().get(state.getTourists().indexOf(tourist)).spend(priceWithDiscount);</span>
+<span class="fc" id="L57">            System.out.println(&quot;SOUVENIR VENDIDO&quot;);</span>
+        }
+<span class="fc" id="L59">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

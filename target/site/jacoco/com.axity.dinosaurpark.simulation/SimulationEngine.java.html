@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SimulationEngine.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">dinosaur-park</a> &gt; <a href="index.source.html" class="el_package">com.axity.dinosaurpark.simulation</a> &gt; <span class="el_source">SimulationEngine.java</span></div><h1>SimulationEngine.java</h1><pre class="source lang-java linenums">package com.axity.dinosaurpark.simulation;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+import com.axity.dinosaurpark.events.BlackoutEvent;
+import com.axity.dinosaurpark.events.DealHourEvent;
+import com.axity.dinosaurpark.events.DinosaurEscapeEvent;
+import com.axity.dinosaurpark.events.SimulationEvent;
+import com.axity.dinosaurpark.events.StormEvent;
+import com.axity.dinosaurpark.events.VehiculeFailureEvent;
+import com.axity.dinosaurpark.model.CarnivoreDinosaur;
+import com.axity.dinosaurpark.model.Dinosaur;
+import com.axity.dinosaurpark.model.DinosaurStatus;
+import com.axity.dinosaurpark.model.Guard;
+import com.axity.dinosaurpark.model.HerbivoreDinosaur;
+import com.axity.dinosaurpark.model.Technician;
+import com.axity.dinosaurpark.model.Tourist;
+import com.axity.dinosaurpark.model.TouristStatus;
+import com.axity.dinosaurpark.model.Vehicule;
+import com.axity.dinosaurpark.model.Worker;
+import com.axity.dinosaurpark.monitoring.ParkMonitor;
+import com.axity.dinosaurpark.persistence.DatabaseService;
+import com.axity.dinosaurpark.zone.ArrivalZone;
+import com.axity.dinosaurpark.zone.BathroomZone;
+import com.axity.dinosaurpark.zone.CentralHub;
+import com.axity.dinosaurpark.zone.ObservationEnclosure;
+import com.axity.dinosaurpark.zone.ParkZone;
+import com.axity.dinosaurpark.zone.PowerPlant;
+
+public class SimulationEngine implements Runnable {
+    private final int totalSteps;
+    private final int batchSize;
+    private final Random rng;
+    private final ArrivalZone arrivalZone;
+    private final ParkState state;
+    private final DatabaseService db;
+    private final CentralHub centralHub;
+    private final ObservationEnclosure enclosure;
+    private final BathroomZone bathroomZone;
+    private final PowerPlant powerPlant;
+    private final Technician technician;
+    private final int monitoringInterval;
+    private List&lt;SimulationEvent&gt; allEvents;
+
+<span class="fc" id="L50">    public SimulationEngine(ParkState state) throws Exception {</span>
+<span class="fc" id="L51">        this.state = state;</span>
+<span class="fc" id="L52">        this.batchSize = state.getConfig().getInt(&quot;simulation.arrivalBatchSize&quot;, 6);</span>
+<span class="fc" id="L53">        this.totalSteps = state.getConfig().getInt(&quot;simulation.totalSteps&quot;, 100);</span>
+<span class="fc" id="L54">        this.arrivalZone = new ArrivalZone(state);</span>
+<span class="fc" id="L55">        this.enclosure = new ObservationEnclosure(state);</span>
+<span class="fc" id="L56">        this.centralHub = new CentralHub(state);</span>
+<span class="fc" id="L57">        this.bathroomZone = new BathroomZone(state);</span>
+<span class="fc" id="L58">        this.db = new DatabaseService(state.getConfig().getString(&quot;db.path&quot;, &quot;none&quot;));</span>
+<span class="fc" id="L59">        this.powerPlant = new PowerPlant(state);</span>
+<span class="fc" id="L60">        this.rng = new Random();</span>
+<span class="fc" id="L61">        this.technician = new Technician(1, &quot;Pedro&quot;, state.getConfig().getDouble(&quot;workers.dailySalary&quot;, 200));</span>
+<span class="fc" id="L62">        this.monitoringInterval = state.getConfig().getInt(&quot;monitoring.intervalSteps&quot;, 15);</span>
+<span class="fc" id="L63">        this.allEvents = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L64">    }</span>
+
+    public void initializeEvents() {
+<span class="fc" id="L67">        allEvents = List.of(</span>
+<span class="fc" id="L68">            new BlackoutEvent(state.getConfig().getDouble(&quot;event.blackout.probability&quot;, 0.3)), </span>
+<span class="fc" id="L69">            new StormEvent(state.getConfig().getDouble(&quot;event.storm.probability&quot;, 0.4)), </span>
+<span class="fc" id="L70">            new DinosaurEscapeEvent(state.getConfig().getDouble(&quot;event.escape.probability&quot;, 0.6)),</span>
+<span class="fc" id="L71">            new DealHourEvent(state.getConfig().getDouble(&quot;event.deals.probability&quot;, 0.5)),</span>
+<span class="fc" id="L72">            new VehiculeFailureEvent(state.getConfig().getDouble(&quot;event.vehicleFailure.probability&quot;, 0.6))</span>
+        );
+<span class="fc" id="L74">    }</span>
+
+    public void initializeZones() {
+<span class="fc" id="L77">        Map&lt;String, ParkZone&gt; zones = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L78">        zones.put(&quot;PowerPlant&quot;, powerPlant);</span>
+<span class="fc" id="L79">        zones.put(&quot;ArrivalZone&quot;, arrivalZone);</span>
+<span class="fc" id="L80">        zones.put(&quot;BathroomZone&quot;, bathroomZone);</span>
+<span class="fc" id="L81">        zones.put(&quot;CentralHubZone&quot;, centralHub);</span>
+<span class="fc" id="L82">        zones.put(&quot;EnclousureZone&quot;, enclosure);</span>
+<span class="fc" id="L83">        state.setZones(zones);</span>
+<span class="fc" id="L84">    }</span>
+
+    private void initializedWorkers() {
+<span class="fc" id="L87">        List&lt;Worker&gt; workers = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">        for (int i = 0; i &lt; state.getConfig().getInt(&quot;workers.guards&quot;, 5); i++) {</span>
+<span class="fc" id="L89">            workers.add(new Guard(i, &quot;WGuard&quot; + i, state.getConfig().getDouble(&quot;workers.dailySalary&quot;, 200)));</span>
+        }
+
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        for (int i = 0; i &lt; state.getConfig().getInt(&quot;workers.technicians&quot;, 5); i++) {</span>
+<span class="fc" id="L93">            workers.add(new Technician(i + 10, &quot;WTechnician&quot; + i, state.getConfig().getDouble(&quot;workers.dailySalary&quot;, 200)));</span>
+        }
+<span class="fc" id="L95">        state.setWorkers(workers);</span>
+<span class="fc" id="L96">    }</span>
+
+    private void initializedDinosaurs() {
+<span class="fc" id="L99">        List&lt;Dinosaur&gt; dinosaurs = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        for (int i = 0; i &lt; state.getConfig().getInt(&quot;dinosaurs.carnivores&quot;, 5); i++) {</span>
+<span class="fc" id="L101">            dinosaurs.add(</span>
+<span class="fc" id="L102">                    new CarnivoreDinosaur(i + 20, &quot;Carnivor&quot; + i, &quot;Tiranosaurio&quot;, DinosaurStatus.IN_ENCLOSURE, 20));</span>
+        }
+<span class="fc bfc" id="L104" title="All 2 branches covered.">        for (int i = 0; i &lt; state.getConfig().getInt(&quot;dinosaurs.herbivores&quot;, 5); i++) {</span>
+<span class="fc" id="L105">            dinosaurs.add(</span>
+<span class="fc" id="L106">                    new HerbivoreDinosaur(i + 30, &quot;Herbivore&quot; + i, &quot;Cuello largo&quot;, DinosaurStatus.IN_ENCLOSURE, 10));</span>
+        }
+<span class="fc" id="L108">        state.setDinosaurs(dinosaurs);</span>
+<span class="fc" id="L109">    }</span>
+
+    public void initializeVehicules() {
+<span class="fc" id="L112">        List&lt;Vehicule&gt; vehicules = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">        for (int i = 0; i &lt; state.getConfig().getInt(&quot;vehicules&quot;, 10); i++) {</span>
+<span class="fc" id="L114">            vehicules.add(new Vehicule(state.getConfig()));</span>
+        }
+<span class="fc" id="L116">        state.setVehicules(vehicules);</span>
+<span class="fc" id="L117">    }</span>
+
+    @Override
+    public void run() {
+<span class="fc" id="L121">        initializeEvents();</span>
+<span class="fc" id="L122">        initializeZones();</span>
+<span class="fc" id="L123">        initializedDinosaurs();</span>
+<span class="fc" id="L124">        initializedWorkers();</span>
+<span class="fc" id="L125">        initializeVehicules();</span>
+<span class="fc" id="L126">        state.setDb(db);</span>
+
+<span class="fc bfc" id="L128" title="All 2 branches covered.">        for (int step = 0; step &lt; totalSteps; step++) {</span>
+<span class="fc" id="L129">            state.incrementStep();</span>
+
+            // A. LLEGADAS
+<span class="fc" id="L132">            List&lt;Tourist&gt; arrived = arrivalZone.processBatch(batchSize, db, state.getCurrentDiscount());</span>
+            // registra ingresos por boletos
+<span class="fc" id="L134">            state.setTourists(arrived);</span>
+
+            // B. MOVIMIENTO DE TURISTAS (todos los que están IN_PARK)
+<span class="fc bfc" id="L137" title="All 2 branches covered.">            for (Tourist t : arrived) {</span>
+<span class="fc" id="L138">                centralHub.visit(t, rng, db, state.getCurrentDiscount());</span>
+<span class="fc" id="L139">                bathroomZone.tryEnter(t, rng, db);</span>
+<span class="fc" id="L140">                enclosure.visit(t, rng, db);</span>
+                // encierro según id del turista
+            }
+
+            // C. TICKS DE ZONAS
+<span class="fc" id="L145">            bathroomZone.tick();</span>
+            try {
+<span class="fc" id="L147">                powerPlant.tick(rng, db);</span>
+<span class="pc" id="L148">            } catch (SQLException e) {</span>
+<span class="nc" id="L149">                e.printStackTrace();</span>
+            }
+
+            // D. Limpiar eventos del step anterior
+<span class="fc" id="L153">            state.clearActiveEvents();</span>
+
+            // Luego disparar eventos probabilísticos (reemplaza el scheduler)
+<span class="fc bfc" id="L156" title="All 2 branches covered.">            for (SimulationEvent event : allEvents) {</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">                if (state.getRng().nextDouble() &lt; event.getProbability()) {</span>
+<span class="fc" id="L158">                    event.execute(state, state.getRng());</span>
+                    try {
+<span class="fc" id="L160">                        db.appendEvent(event.toRecord(step));</span>
+<span class="pc" id="L161">                    } catch (SQLException e) {</span>
+<span class="nc" id="L162">                        e.printStackTrace();</span>
+                    }
+<span class="fc" id="L164">                    state.addActiveEvent(event.getName());</span>
+                }
+            }
+
+
+
+            // C. También hacer tick a los vehículos
+<span class="fc bfc" id="L171" title="All 2 branches covered.">            for (Vehicule v : state.getVehicules()) v.tick();</span>
+
+            // E. Technician ahora también necesita vehicles
+<span class="fc" id="L174">            technician.repairIfNeeded(powerPlant, state.getVehicules());</span>
+
+            // F. Monitoreo CONDICIONAL — no cada step
+<span class="fc bfc" id="L177" title="All 2 branches covered.">            if (state.getCurrentStep() % monitoringInterval == 0)</span>
+<span class="fc" id="L178">                ParkMonitor.displaySnapshot(state);</span>
+
+        }
+
+<span class="fc" id="L182">        state.getTourists().forEach(t -&gt; {</span>
+<span class="fc" id="L183">            t.setStatus(TouristStatus.EXITED);</span>
+<span class="fc" id="L184">        });</span>
+<span class="fc" id="L185">        resumenFinal();</span>
+<span class="fc" id="L186">    }</span>
+
+    private void resumenFinal(){
+<span class="fc" id="L189">        System.out.println(&quot;=====================================&quot;);</span>
+<span class="fc" id="L190">        System.out.println(&quot;       RESUMEN GENERAL DEL DIA     &quot;);</span>
+<span class="fc" id="L191">        System.out.println(&quot;=====================================&quot;);</span>
+<span class="fc" id="L192">        System.out.println(&quot;____________________________________&quot;);</span>
+<span class="fc" id="L193">        System.out.printf(&quot;| RESUMEN FINAL - Step %-11d |%n&quot;, state.getCurrentStep());</span>
+<span class="fc" id="L194">        System.out.printf(&quot;| 1. Gastos operativos: $ %-9s|%n&quot;, state.getTotalExpenses());</span>
+<span class="fc" id="L195">        System.out.printf(&quot;| 2. Ventas realizadas: $ %-9s|%n&quot;, state.getSales());</span>
+<span class="fc" id="L196">        System.out.printf(&quot;| 3. Ganancias del dia: $ %-9s|%n&quot;, state.getTotalRevenue());</span>
+<span class="fc" id="L197">        System.out.printf(&quot;| 4. Eventos generados:  %-10d|%n&quot;, state.getAllEventsPerDay().size());</span>
+<span class="fc" id="L198">        System.out.println(&quot;|__________________________________|&quot;);</span>
+<span class="fc" id="L199">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

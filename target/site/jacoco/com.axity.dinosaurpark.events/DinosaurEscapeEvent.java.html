@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DinosaurEscapeEvent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">dinosaur-park</a> &gt; <a href="index.source.html" class="el_package">com.axity.dinosaurpark.events</a> &gt; <span class="el_source">DinosaurEscapeEvent.java</span></div><h1>DinosaurEscapeEvent.java</h1><pre class="source lang-java linenums">package com.axity.dinosaurpark.events;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+
+import com.axity.dinosaurpark.model.Dinosaur;
+import com.axity.dinosaurpark.model.DinosaurStatus;
+import com.axity.dinosaurpark.model.Tourist;
+import com.axity.dinosaurpark.model.TouristStatus;
+import com.axity.dinosaurpark.persistence.EventRecord;
+import com.axity.dinosaurpark.simulation.ParkState;
+
+public class DinosaurEscapeEvent implements SimulationEvent{
+
+    private final double probability;
+
+<span class="fc" id="L19">    public DinosaurEscapeEvent(double probability){</span>
+<span class="fc" id="L20">        this.probability = probability;</span>
+<span class="fc" id="L21">    }</span>
+    
+    @Override
+    public String getName() {
+<span class="fc" id="L25">        return &quot;ESCAPE_DINOSAURIO&quot;;</span>
+    }
+
+    @Override
+    public String getDescription() {
+<span class="fc" id="L30">        return &quot;Escape de dinosaurio en areas de encierro&quot;;</span>
+    }
+
+    @Override
+    public void execute(ParkState state, Random rng) {
+<span class="fc" id="L35">        System.out.println(&quot;---------------------------------------&quot;);</span>
+<span class="fc" id="L36">        System.out.println(&quot;EVENTO EN EJECUCION &quot;+getName());</span>
+<span class="fc" id="L37">        System.out.println(&quot;---------------------------------------&quot;);</span>
+<span class="fc" id="L38">        state.setEventToAllEventsPerDays(getName());</span>
+<span class="fc" id="L39">        List&lt;Dinosaur&gt; dinoInclousere = state.getDinosaurs().stream().filter(d -&gt; d.getStatus().equals(DinosaurStatus.IN_ENCLOSURE)).collect(Collectors.toList());</span>
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">        if(dinoInclousere.size() &gt; 0){</span>
+<span class="fc" id="L41">            int dinoToEscape = rng.nextInt(dinoInclousere.size());</span>
+<span class="fc" id="L42">            state.getDinosaurs().get(dinoToEscape).escape();</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">            if (rng.nextDouble() &lt; state.getDinosaurs().get(dinoToEscape).getDangerLevel()) {</span>
+<span class="fc" id="L44">                List&lt;Tourist&gt; touristsInPark = state.getTourists().stream().filter(t -&gt; t.getStatus().equals(TouristStatus.IN_PARK)).collect(Collectors.toList());</span>
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">                if (touristsInPark.size() &gt; 0) {</span>
+<span class="fc" id="L46">                    state.getTourists().get(rng.nextInt(touristsInPark.size())).setStatus(TouristStatus.ATTACKED);</span>
+<span class="fc" id="L47">                } else {</span>
+<span class="nc" id="L48">                    System.out.println(&quot;SIN TURISTISTAS EN PARQUE&quot;);</span>
+                }
+            }
+<span class="nc" id="L51">        } else {</span>
+<span class="nc" id="L52">            System.out.println(&quot;DINOSAURIOS SUELTOS&quot;);</span>
+        }
+<span class="fc" id="L54">    }</span>
+
+    @Override
+    public EventRecord toRecord(long step) {
+<span class="fc" id="L58">        return new EventRecord(0L, step, getName(), getDescription(), &quot;Dinosaur, Tourist, Guard&quot;, LocalDateTime.now());</span>
+    }
+
+    @Override
+    public double getProbability() {
+<span class="fc" id="L63">        return probability;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

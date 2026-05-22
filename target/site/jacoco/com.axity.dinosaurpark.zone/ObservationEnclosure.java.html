@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ObservationEnclosure.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">dinosaur-park</a> &gt; <a href="index.source.html" class="el_package">com.axity.dinosaurpark.zone</a> &gt; <span class="el_source">ObservationEnclosure.java</span></div><h1>ObservationEnclosure.java</h1><pre class="source lang-java linenums">package com.axity.dinosaurpark.zone;
+
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.Random;
+
+import com.axity.dinosaurpark.model.Tourist;
+import com.axity.dinosaurpark.persistence.DatabaseService;
+import com.axity.dinosaurpark.persistence.RevenueRecord;
+import com.axity.dinosaurpark.simulation.ParkState;
+
+public class ObservationEnclosure implements ParkZone {
+
+    private final ParkState state;
+    private int currentOccupancy;
+
+<span class="fc" id="L17">    public ObservationEnclosure(ParkState state) {</span>
+<span class="fc" id="L18">        this.state = state;</span>
+<span class="fc" id="L19">    }</span>
+
+    @Override
+    public String getName() {
+<span class="fc" id="L23">        return &quot;OBSERVATION_ENCLOSURE_ZONE&quot;;</span>
+    }
+
+    @Override
+    public boolean hasCapacity() {
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        return (getCurrentOccupancy() &lt; getMaxCapacity()) ? true : false;</span>
+    }
+
+    @Override
+    public int getCurrentOccupancy() {
+<span class="nc" id="L33">        return currentOccupancy;</span>
+    }
+
+    @Override
+    public int getMaxCapacity() {
+<span class="nc" id="L38">        return state.getConfig().getInt(&quot;enclosure.maxVisitors&quot;, 37);</span>
+    }
+
+    @Override
+    public void enter(Tourist tourist) {
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (hasCapacity()) {</span>
+<span class="nc" id="L44">            currentOccupancy++;</span>
+        }
+<span class="nc" id="L46">    }</span>
+
+    @Override
+    public void exit(Tourist tourist) {
+<span class="nc" id="L50">        currentOccupancy--;</span>
+<span class="nc" id="L51">    }</span>
+
+    public void visit(Tourist tourist, Random probability, DatabaseService dService) {
+<span class="fc" id="L54">        double value = probability.nextDouble();</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        if (value &gt; 0.06) {</span>
+<span class="fc" id="L56">            double basic = state.getConfig().getDouble(&quot;enclosure.basic.entryFee&quot;, 20.0);</span>
+<span class="fc" id="L57">            state.getTourists().get(state.getTourists().indexOf(tourist)).spend(basic);</span>
+<span class="fc" id="L58">            System.out.println(&quot;ENCLOUSERE_BASIC_VENDIDO&quot;);</span>
+            try {
+<span class="fc" id="L60">                dService.appendRevenue(</span>
+<span class="fc" id="L61">                        new RevenueRecord(0L, &quot;ENCLOUSERE_BASIC&quot;, basic,</span>
+<span class="fc" id="L62">                                0L, getName(), LocalDateTime.now()));</span>
+<span class="pc" id="L63">            } catch (SQLException e) {</span>
+<span class="nc" id="L64">                e.printStackTrace();</span>
+            }
+<span class="nc" id="L66">        } else {</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">            if (value &lt; 0.03) {</span>
+<span class="fc" id="L68">                double vip = state.getConfig().getDouble(&quot;enclosure.vip.entryFee&quot;, 30.0);</span>
+<span class="fc" id="L69">                state.getTourists().get(state.getTourists().indexOf(tourist)).spend(vip);</span>
+<span class="fc" id="L70">                System.out.println(&quot;ENCLOUSERE_VIP_VENDIDO&quot;);</span>
+                try {
+<span class="fc" id="L72">                    dService.appendRevenue(</span>
+<span class="fc" id="L73">                            new RevenueRecord(0L, &quot;ENCLOUSERE_BASIC&quot;, vip,</span>
+<span class="fc" id="L74">                                    0L, getName(), LocalDateTime.now()));</span>
+<span class="pc" id="L75">                } catch (SQLException e) {</span>
+<span class="nc" id="L76">                    e.printStackTrace();</span>
+                }
+<span class="nc" id="L78">            } else {</span>
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">                if (value &gt; 0.03) {</span>
+<span class="fc" id="L80">                    double premium = state.getConfig().getDouble(&quot;enclosure.premium.entryFee&quot;, 30.0);</span>
+<span class="fc" id="L81">                    state.getTourists().get(state.getTourists().indexOf(tourist)).spend(premium);</span>
+<span class="fc" id="L82">                    System.out.println(&quot;ENCLOUSERE_PREMIUM_VENDIDO&quot;);</span>
+                    try {
+<span class="fc" id="L84">                        dService.appendRevenue(</span>
+<span class="fc" id="L85">                                new RevenueRecord(0L, &quot;ENCLOUSERE_BASIC&quot;, premium,</span>
+<span class="fc" id="L86">                                        0L, getName(), LocalDateTime.now()));</span>
+<span class="pc" id="L87">                    } catch (SQLException e) {</span>
+<span class="nc" id="L88">                        e.printStackTrace();</span>
+                    }
+                }
+            }
+        }
+
+<span class="fc" id="L94">    }</span>
+
+    public void conductSurvey(Tourist tourist, Random num) {
+
+<span class="nc" id="L98">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

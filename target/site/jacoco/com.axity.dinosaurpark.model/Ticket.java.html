@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Ticket.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">dinosaur-park</a> &gt; <a href="index.source.html" class="el_package">com.axity.dinosaurpark.model</a> &gt; <span class="el_source">Ticket.java</span></div><h1>Ticket.java</h1><pre class="source lang-java linenums">package com.axity.dinosaurpark.model;
+
+import java.time.LocalDateTime;
+
+public class Ticket {
+    private final int id;
+    private final int touristId;
+    private final double price;
+    private final String category;
+    private final LocalDateTime issuedAt;
+
+<span class="nc" id="L12">    public Ticket(int id, int touristId, double price, String category, LocalDateTime issuedAt) {</span>
+<span class="nc" id="L13">        this.id = id;</span>
+<span class="nc" id="L14">        this.touristId = touristId;</span>
+<span class="nc" id="L15">        this.price = price;</span>
+<span class="nc" id="L16">        this.category = category;</span>
+<span class="nc" id="L17">        this.issuedAt = issuedAt;</span>
+<span class="nc" id="L18">    }</span>
+
+    public int getId() {
+<span class="nc" id="L21">        return id;</span>
+    }
+
+    public int getTouristId() {
+<span class="nc" id="L25">        return touristId;</span>
+    }
+
+    public double getPrice() {
+<span class="nc" id="L29">        return price;</span>
+    }
+
+    public String getCategory() {
+<span class="nc" id="L33">        return category;</span>
+    }
+
+    public LocalDateTime getIssuedAt() {
+<span class="nc" id="L37">        return issuedAt;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,8 @@
+com\axity\dinosaurpark\events\StormEventTest.class
+com\axity\dinosaurpark\monitoring\AppMonitoringTest.class
+com\axity\dinosaurpark\events\DinosaurEscapeTest.class
+com\axity\dinosaurpark\zones\PowerPlantTest.class
+com\axity\dinosaurpark\zones\BathroomZoneTest.class
+com\axity\dinosaurpark\AppTest.class
+com\axity\dinosaurpark\zones\CentralHubTest.class
+com\axity\dinosaurpark\zones\ArribalZoneTest.class

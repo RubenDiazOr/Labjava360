@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.axity.dinosaurpark.monitoring.AppMonitoringTest" time="3.279" tests="1" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="21"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.class.path" value="D:\Docs\Cursos\Java Axity\24_Laboratorio360\dinosaur-park\target\test-classes;D:\Docs\Cursos\Java Axity\24_Laboratorio360\dinosaur-park\target\classes;C:\Users\ruben\.m2\repository\org\liquibase\liquibase-core\4.32.0\liquibase-core-4.32.0.jar;C:\Users\ruben\.m2\repository\com\opencsv\opencsv\5.11\opencsv-5.11.jar;C:\Users\ruben\.m2\repository\org\yaml\snakeyaml\2.4\snakeyaml-2.4.jar;C:\Users\ruben\.m2\repository\javax\xml\bind\jaxb-api\2.3.1\jaxb-api-2.3.1.jar;C:\Users\ruben\.m2\repository\org\apache\commons\commons-collections4\4.5.0\commons-collections4-4.5.0.jar;C:\Users\ruben\.m2\repository\org\apache\commons\commons-text\1.13.1\commons-text-1.13.1.jar;C:\Users\ruben\.m2\repository\org\apache\commons\commons-lang3\3.17.0\commons-lang3-3.17.0.jar;C:\Users\ruben\.m2\repository\commons-io\commons-io\2.19.0\commons-io-2.19.0.jar;C:\Users\ruben\.m2\repository\com\h2database\h2\2.3.232\h2-2.3.232.jar;C:\Users\ruben\.m2\repository\org\mockito\mockito-junit-jupiter\5.18.0\mockito-junit-jupiter-5.18.0.jar;C:\Users\ruben\.m2\repository\org\mockito\mockito-core\5.18.0\mockito-core-5.18.0.jar;C:\Users\ruben\.m2\repository\net\bytebuddy\byte-buddy\1.17.5\byte-buddy-1.17.5.jar;C:\Users\ruben\.m2\repository\net\bytebuddy\byte-buddy-agent\1.17.5\byte-buddy-agent-1.17.5.jar;C:\Users\ruben\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\ruben\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.11.4\junit-jupiter-api-5.11.4.jar;C:\Users\ruben\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\ruben\.m2\repository\org\junit\platform\junit-platform-commons\1.11.4\junit-platform-commons-1.11.4.jar;C:\Users\ruben\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\ruben\.m2\repository\junit\junit\4.13\junit-4.13.jar;C:\Users\ruben\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
+    <property name="java.vm.vendor" value="Amazon.com Inc."/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://aws.amazon.com/corretto/"/>
+    <property name="user.timezone" value="America/Mexico_City"/>
+    <property name="os.name" value="Windows 11"/>
+    <property name="java.vm.specification.version" value="21"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="MX"/>
+    <property name="sun.boot.library.path" value="D:\Archivos de programa\Amazon Corretto\jdk21.0.8_9\bin"/>
+    <property name="sun.java.command" value="C:\Users\ruben\AppData\Local\Temp\surefire9413147410936094995\surefirebooter-20260521231602251_3.jar C:\Users\ruben\AppData\Local\Temp\surefire9413147410936094995 2026-05-21T23-16-02_092-jvmRun1 surefire-20260521231602251_1tmp surefire_0-20260521231602251_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="D:\Docs\Cursos\Java Axity\24_Laboratorio360\dinosaur-park\target\test-classes;D:\Docs\Cursos\Java Axity\24_Laboratorio360\dinosaur-park\target\classes;C:\Users\ruben\.m2\repository\org\liquibase\liquibase-core\4.32.0\liquibase-core-4.32.0.jar;C:\Users\ruben\.m2\repository\com\opencsv\opencsv\5.11\opencsv-5.11.jar;C:\Users\ruben\.m2\repository\org\yaml\snakeyaml\2.4\snakeyaml-2.4.jar;C:\Users\ruben\.m2\repository\javax\xml\bind\jaxb-api\2.3.1\jaxb-api-2.3.1.jar;C:\Users\ruben\.m2\repository\org\apache\commons\commons-collections4\4.5.0\commons-collections4-4.5.0.jar;C:\Users\ruben\.m2\repository\org\apache\commons\commons-text\1.13.1\commons-text-1.13.1.jar;C:\Users\ruben\.m2\repository\org\apache\commons\commons-lang3\3.17.0\commons-lang3-3.17.0.jar;C:\Users\ruben\.m2\repository\commons-io\commons-io\2.19.0\commons-io-2.19.0.jar;C:\Users\ruben\.m2\repository\com\h2database\h2\2.3.232\h2-2.3.232.jar;C:\Users\ruben\.m2\repository\org\mockito\mockito-junit-jupiter\5.18.0\mockito-junit-jupiter-5.18.0.jar;C:\Users\ruben\.m2\repository\org\mockito\mockito-core\5.18.0\mockito-core-5.18.0.jar;C:\Users\ruben\.m2\repository\net\bytebuddy\byte-buddy\1.17.5\byte-buddy-1.17.5.jar;C:\Users\ruben\.m2\repository\net\bytebuddy\byte-buddy-agent\1.17.5\byte-buddy-agent-1.17.5.jar;C:\Users\ruben\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\ruben\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.11.4\junit-jupiter-api-5.11.4.jar;C:\Users\ruben\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\ruben\.m2\repository\org\junit\platform\junit-platform-commons\1.11.4\junit-platform-commons-1.11.4.jar;C:\Users\ruben\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\ruben\.m2\repository\junit\junit\4.13\junit-4.13.jar;C:\Users\ruben\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\ruben"/>
+    <property name="user.language" value="es"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-07-15"/>
+    <property name="java.home" value="D:\Archivos de programa\Amazon Corretto\jdk21.0.8_9"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="D:\Docs\Cursos\Java Axity\24_Laboratorio360\dinosaur-park"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\ruben\AppData\Local\Temp\surefire9413147410936094995\surefirebooter-20260521231602251_3.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="21.0.8+9-LTS"/>
+    <property name="user.name" value="ruben"/>
+    <property name="stdout.encoding" value="Cp1252"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Corretto-21.0.8.9.1"/>
+    <property name="localRepository" value="C:\Users\ruben\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/corretto/corretto-21/issues/"/>
+    <property name="java.io.tmpdir" value="C:\Users\ruben\AppData\Local\Temp\"/>
+    <property name="java.version" value="21.0.8"/>
+    <property name="user.dir" value="D:\Docs\Cursos\Java Axity\24_Laboratorio360\dinosaur-park"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="D:\Archivos de programa\Amazon Corretto\jdk21.0.8_9\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;c:\Users\ruben\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\debugCommand;c:\Users\ruben\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\copilotCli;C:\Users\ruben\AppData\Local\Programs\Python\Python314\Scripts\;C:\Users\ruben\AppData\Local\Programs\Python\Python314\;C:\Program Files\Common Files\Oracle\Java\javapath;D:\Archivos de programa\Java\jdk-17\bin;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;D:\Archivos de programa\Amazon Corretto\jdk21.0.8_9\bin;D:\Archivos de programa\VMware Workstation\bin\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\dotnet\;C:\ProgramData\chocolatey\bin;D:\wamp64\bin\php\php8.2.0;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\ruben\AppData\Local\Programs\Python\Python39;C:\Users\ruben\AppData\Local\Programs\Python\Python39\ScriptsC:\Users\ruben\AppData\Local\Programs\Python\Python39\Scripts;C:\Program Files\PuTTY\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\NVIDIA Corporation\NVIDIA App\NvDLISR;C:\Program Files\PostgreSQL\17\bin;C:\composer;D:\Archivos de programa\apache-maven-3.9.11\mvn\bin;D:\Archivos de programa\Git\cmd;C:\Program Files\Docker\Docker\resources\bin;D:\Archivos de programa\Node\;C:\Users\ruben\AppData\Local\Microsoft\WindowsApps;C:\Users\ruben\AppData\Roaming\Composer\vendor\bin;C:\Program Files\MySQL\MySQL Server 8.0\bin;D:\Archivos de programa\IntelliJ IDEA\IntelliJ IDEA Community Edition 2023.3.4\bin;;C:\Users\ruben\AppData\Local\Programs\Microsoft VS Code\bin;D:\Archivos de programa\IntelliJ IDEA\IntelliJ IDEA 2025.3.1.1\bin;C:\Users\ruben\AppData\Local\Python\bin;;D:\Archivos de programa\liquibase;C:\Users\ruben\AppData\Roaming\npm;c:\Users\ruben\.vscode\extensions\vscjava.vscode-java-debug-0.59.0\bundled\scripts\noConfigScripts;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="Cp1252"/>
+    <property name="java.vendor" value="Amazon.com Inc."/>
+    <property name="java.vm.version" value="21.0.8+9-LTS"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="65.0"/>
+  </properties>
+  <testcase name="monitoringApp" classname="com.axity.dinosaurpark.monitoring.AppMonitoringTest" time="3.279">
+    <system-out><![CDATA[Database is up to date, no changesets to execute
+
+UPDATE SUMMARY
+Run:                          0
+Previously run:               3
+Filtered out:                 0
+-------------------------------
+Total change sets:            3
+
+____________________________________
+| MONITOR - Step 0                 |
+| 1. Turistas IN_PARK:   0         |
+| 2. Dinosaurios en encierro:  0   |
+| 3. Energia disponible:   100.0   |
+| 4. Eventos activos:      0       |
+| 5. Vehiculos no disponibles: 0   |
+|__________________________________|
+]]></system-out>
+    <system-err><![CDATA[may 21, 2026 11:16:04 P. M. liquibase.database
+INFORMACIÓN: Set default schema name to PUBLIC
+may 21, 2026 11:16:05 P. M. liquibase.changelog
+INFORMACIÓN: Reading from PUBLIC.DATABASECHANGELOG
+may 21, 2026 11:16:05 P. M. liquibase.changelog
+INFORMACIÓN: Reading from PUBLIC.DATABASECHANGELOG
+may 21, 2026 11:16:05 P. M. liquibase.util
+INFORMACIÓN: UPDATE SUMMARY
+may 21, 2026 11:16:05 P. M. liquibase.util
+INFORMACIÓN: Run:                          0
+may 21, 2026 11:16:05 P. M. liquibase.util
+INFORMACIÓN: Previously run:               3
+may 21, 2026 11:16:05 P. M. liquibase.util
+INFORMACIÓN: Filtered out:                 0
+may 21, 2026 11:16:05 P. M. liquibase.util
+INFORMACIÓN: -------------------------------
+may 21, 2026 11:16:05 P. M. liquibase.util
+INFORMACIÓN: Total change sets:            3
+may 21, 2026 11:16:05 P. M. liquibase.util
+INFORMACIÓN: Update summary generated
+may 21, 2026 11:16:05 P. M. liquibase.command
+INFORMACIÓN: Command execution complete
+]]></system-err>
+  </testcase>
+</testsuite>

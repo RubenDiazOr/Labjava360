@@ -1,0 +1,186 @@
+2026-05-20 21:12:15.725828-06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "DATABASECHANGELOGLOCK" no encontrada
+Table "DATABASECHANGELOGLOCK" not found; SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42102-232]
+2026-05-21 12:19:54.518069-06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Columna "TIMESTAP" no encontrada
+Column "TIMESTAP" not found; SQL statement:
+INSERT INTO events (step, event_name, description, affected_entities, timestap) VALUES (?,?,?,?,?) [42122-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.table.Table.getColumn(Table.java:786)
+	at org.h2.command.Parser.parseColumn(Parser.java:1171)
+	at org.h2.command.Parser.parseColumnList(Parser.java:1156)
+	at org.h2.command.Parser.parseInsert(Parser.java:1530)
+	at org.h2.command.Parser.parsePrepared(Parser.java:698)
+	at org.h2.command.Parser.parse(Parser.java:581)
+	at org.h2.command.Parser.parse(Parser.java:556)
+	at org.h2.command.Parser.prepareCommand(Parser.java:484)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:645)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:561)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1164)
+	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:93)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:315)
+	at com.axity.dinosaurpark.persistence.DatabaseService.appendEvent(DatabaseService.java:59)
+	at com.axity.dinosaurpark.simulation.SimulationEngine.run(SimulationEngine.java:110)
+	at com.axity.dinosaurpark.Main.main(Main.java:14)
+2026-05-21 12:51:30.664971-06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valor Invalido "0" para el parametro "parameterIndex"
+Invalid value "0" for parameter "parameterIndex" [90008-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:658)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.getInvalidValueException(DbException.java:298)
+	at org.h2.jdbc.JdbcPreparedStatement.setParameter(JdbcPreparedStatement.java:1396)
+	at org.h2.jdbc.JdbcPreparedStatement.setString(JdbcPreparedStatement.java:388)
+	at com.axity.dinosaurpark.persistence.DatabaseService.appendExpense(DatabaseService.java:50)
+	at com.axity.dinosaurpark.zone.PowerPlant.triggerFailure(PowerPlant.java:74)
+	at com.axity.dinosaurpark.events.BlackoutEvent.execute(BlackoutEvent.java:34)
+	at com.axity.dinosaurpark.simulation.SimulationEngine.run(SimulationEngine.java:140)
+	at com.axity.dinosaurpark.Main.main(Main.java:14)
+2026-05-21 12:51:30.669809-06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valor Invalido "0" para el parametro "parameterIndex"
+Invalid value "0" for parameter "parameterIndex" [90008-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:658)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.getInvalidValueException(DbException.java:298)
+	at org.h2.jdbc.JdbcPreparedStatement.setParameter(JdbcPreparedStatement.java:1396)
+	at org.h2.jdbc.JdbcPreparedStatement.setLong(JdbcPreparedStatement.java:688)
+	at com.axity.dinosaurpark.persistence.DatabaseService.appendEvent(DatabaseService.java:60)
+	at com.axity.dinosaurpark.simulation.SimulationEngine.run(SimulationEngine.java:142)
+	at com.axity.dinosaurpark.Main.main(Main.java:14)
+2026-05-21 12:51:30.671524-06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valor Invalido "0" para el parametro "parameterIndex"
+Invalid value "0" for parameter "parameterIndex" [90008-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:658)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.getInvalidValueException(DbException.java:298)
+	at org.h2.jdbc.JdbcPreparedStatement.setParameter(JdbcPreparedStatement.java:1396)
+	at org.h2.jdbc.JdbcPreparedStatement.setString(JdbcPreparedStatement.java:388)
+	at com.axity.dinosaurpark.persistence.DatabaseService.appendExpense(DatabaseService.java:50)
+	at com.axity.dinosaurpark.zone.PowerPlant.triggerFailure(PowerPlant.java:74)
+	at com.axity.dinosaurpark.events.BlackoutEvent.execute(BlackoutEvent.java:34)
+	at com.axity.dinosaurpark.simulation.SimulationEngine.run(SimulationEngine.java:140)
+	at com.axity.dinosaurpark.Main.main(Main.java:14)
+2026-05-21 12:51:30.673535-06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valor Invalido "0" para el parametro "parameterIndex"
+Invalid value "0" for parameter "parameterIndex" [90008-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:658)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.getInvalidValueException(DbException.java:298)
+	at org.h2.jdbc.JdbcPreparedStatement.setParameter(JdbcPreparedStatement.java:1396)
+	at org.h2.jdbc.JdbcPreparedStatement.setLong(JdbcPreparedStatement.java:688)
+	at com.axity.dinosaurpark.persistence.DatabaseService.appendEvent(DatabaseService.java:60)
+	at com.axity.dinosaurpark.simulation.SimulationEngine.run(SimulationEngine.java:142)
+	at com.axity.dinosaurpark.Main.main(Main.java:14)
+2026-05-21 12:51:30.674880-06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valor Invalido "0" para el parametro "parameterIndex"
+Invalid value "0" for parameter "parameterIndex" [90008-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:658)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.getInvalidValueException(DbException.java:298)
+	at org.h2.jdbc.JdbcPreparedStatement.setParameter(JdbcPreparedStatement.java:1396)
+	at org.h2.jdbc.JdbcPreparedStatement.setLong(JdbcPreparedStatement.java:688)
+	at com.axity.dinosaurpark.persistence.DatabaseService.appendEvent(DatabaseService.java:60)
+	at com.axity.dinosaurpark.simulation.SimulationEngine.run(SimulationEngine.java:142)
+	at com.axity.dinosaurpark.Main.main(Main.java:14)
+2026-05-21 12:53:36.510804-06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valor Invalido "0" para el parametro "parameterIndex"
+Invalid value "0" for parameter "parameterIndex" [90008-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:658)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.getInvalidValueException(DbException.java:298)
+	at org.h2.jdbc.JdbcPreparedStatement.setParameter(JdbcPreparedStatement.java:1396)
+	at org.h2.jdbc.JdbcPreparedStatement.setString(JdbcPreparedStatement.java:388)
+	at com.axity.dinosaurpark.persistence.DatabaseService.appendExpense(DatabaseService.java:50)
+	at com.axity.dinosaurpark.zone.PowerPlant.triggerFailure(PowerPlant.java:74)
+	at com.axity.dinosaurpark.events.BlackoutEvent.execute(BlackoutEvent.java:35)
+	at com.axity.dinosaurpark.simulation.SimulationEngine.run(SimulationEngine.java:140)
+	at com.axity.dinosaurpark.Main.main(Main.java:14)
+2026-05-21 12:53:36.514956-06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valor Invalido "0" para el parametro "parameterIndex"
+Invalid value "0" for parameter "parameterIndex" [90008-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:658)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.getInvalidValueException(DbException.java:298)
+	at org.h2.jdbc.JdbcPreparedStatement.setParameter(JdbcPreparedStatement.java:1396)
+	at org.h2.jdbc.JdbcPreparedStatement.setLong(JdbcPreparedStatement.java:688)
+	at com.axity.dinosaurpark.persistence.DatabaseService.appendEvent(DatabaseService.java:60)
+	at com.axity.dinosaurpark.simulation.SimulationEngine.run(SimulationEngine.java:142)
+	at com.axity.dinosaurpark.Main.main(Main.java:14)
+2026-05-21 12:55:48.647601-06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valor Invalido "0" para el parametro "parameterIndex"
+Invalid value "0" for parameter "parameterIndex" [90008-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:658)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.getInvalidValueException(DbException.java:298)
+	at org.h2.jdbc.JdbcPreparedStatement.setParameter(JdbcPreparedStatement.java:1396)
+	at org.h2.jdbc.JdbcPreparedStatement.setLong(JdbcPreparedStatement.java:688)
+	at com.axity.dinosaurpark.persistence.DatabaseService.appendEvent(DatabaseService.java:60)
+	at com.axity.dinosaurpark.simulation.SimulationEngine.run(SimulationEngine.java:142)
+	at com.axity.dinosaurpark.Main.main(Main.java:14)
+2026-05-21 13:00:50.104325-06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valor Invalido "0" para el parametro "parameterIndex"
+Invalid value "0" for parameter "parameterIndex" [90008-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:658)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.getInvalidValueException(DbException.java:298)
+	at org.h2.jdbc.JdbcPreparedStatement.setParameter(JdbcPreparedStatement.java:1396)
+	at org.h2.jdbc.JdbcPreparedStatement.setString(JdbcPreparedStatement.java:388)
+	at com.axity.dinosaurpark.persistence.DatabaseService.appendExpense(DatabaseService.java:50)
+	at com.axity.dinosaurpark.zone.PowerPlant.triggerFailure(PowerPlant.java:74)
+	at com.axity.dinosaurpark.events.BlackoutEvent.execute(BlackoutEvent.java:35)
+	at com.axity.dinosaurpark.simulation.SimulationEngine.run(SimulationEngine.java:140)
+	at com.axity.dinosaurpark.Main.main(Main.java:14)
+2026-05-21 13:00:50.111359-06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valor Invalido "0" para el parametro "parameterIndex"
+Invalid value "0" for parameter "parameterIndex" [90008-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:658)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.getInvalidValueException(DbException.java:298)
+	at org.h2.jdbc.JdbcPreparedStatement.setParameter(JdbcPreparedStatement.java:1396)
+	at org.h2.jdbc.JdbcPreparedStatement.setString(JdbcPreparedStatement.java:388)
+	at com.axity.dinosaurpark.persistence.DatabaseService.appendExpense(DatabaseService.java:50)
+	at com.axity.dinosaurpark.zone.PowerPlant.triggerFailure(PowerPlant.java:74)
+	at com.axity.dinosaurpark.events.BlackoutEvent.execute(BlackoutEvent.java:35)
+	at com.axity.dinosaurpark.simulation.SimulationEngine.run(SimulationEngine.java:140)
+	at com.axity.dinosaurpark.Main.main(Main.java:14)
+2026-05-21 14:41:31.004896-06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: La base de datos ya esta cerrada (para des-habilitar el cerrado automatico durante el shutdown de la VM, agregue ";DB_CLOSE_ON_EXIT=FALSE" a la URL de conexión)
+Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1423)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:313)
+	at com.axity.dinosaurpark.persistence.DatabaseService.appendEvent(DatabaseService.java:59)
+	at com.axity.dinosaurpark.simulation.SimulationEngine.run(SimulationEngine.java:153)
+	at com.axity.dinosaurpark.Main.main(Main.java:14)
+2026-05-21 14:41:31.024278-06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: La base de datos ya esta cerrada (para des-habilitar el cerrado automatico durante el shutdown de la VM, agregue ";DB_CLOSE_ON_EXIT=FALSE" a la URL de conexión)
+Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1423)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:313)
+	at com.axity.dinosaurpark.persistence.DatabaseService.appendExpense(DatabaseService.java:49)
+	at com.axity.dinosaurpark.zone.PowerPlant.triggerFailure(PowerPlant.java:74)
+	at com.axity.dinosaurpark.events.BlackoutEvent.execute(BlackoutEvent.java:35)
+	at com.axity.dinosaurpark.simulation.SimulationEngine.run(SimulationEngine.java:151)
+	at com.axity.dinosaurpark.Main.main(Main.java:14)
